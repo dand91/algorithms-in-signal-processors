@@ -55,3 +55,5 @@ for k=1:Blocks-1
    w_hist = [w_hist,w];
 
 end
+
+

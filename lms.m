@@ -8,7 +8,7 @@ function [e,y,w,w_hist]=lms(mu,M,u,d);
 %           u       = input signal, dim Nx1
 %           d       = desired signal, dim Nx1    
 %
-%           Output arguments:
+%           Output arguments:w
 %           e       = estimation error, dim Nx1
 %           w       = final filter coefficients, dim Mx1
 
@@ -26,6 +26,7 @@ w_hist = [];
 
 %LMS
 for n=M:N
+    
     uvec=u(n:-1:n-M+1);
     y(n) = w'*uvec;
     e(n)=d(n)-y(n);  

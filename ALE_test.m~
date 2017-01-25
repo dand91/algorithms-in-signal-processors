@@ -94,16 +94,13 @@ delay = dsp.Delay(10);
 s = eta1 + y;
 %s = eta1 + eta2 + y;
 
-d = delay(s);
+%d = delay(s);
 
-disp(d(1:1:100))
-
-
-%d = s;
+d = s;
 
 %[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
-%[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
-[e,y_out,w,w_hist] = nlms(0.1,filter_size,s,d,100);
+[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
+%[e,y_out,w,w_hist] = nlms(0.1,filter_size,s,d,100);
 
 figure()
 plot(e(1:1000))
@@ -150,8 +147,15 @@ plot(w_hist)
 soundsc(e, 44100);
 
 
-%% test
+%% Delay test 
 
-u = toeplitz([1 2 3]);
 
-disp(u)
+delay = dsp.Delay(D);
+
+% Algorithm
+
+s = fm_eta + y;
+
+d = delay(s);
+
+
