@@ -76,7 +76,13 @@ void block_lms(X, Y, w){
 
     //umat=toeplitz(u(k*M:1:(k+1)*M-1),u(k*M:-1:(k-1)*M+1));
 
-
+    int u_m[N][N];
+    for (int i = 0; i < N; ++i) {
+        for (int j = i; j < N; ++j) {
+            u_m[i][j] = u[j-i];
+            u_m[j][i] = u[j-i];
+        }
+    }
 
     // Delayed signal
     double d[DSP_BLOCK_SIZE];
