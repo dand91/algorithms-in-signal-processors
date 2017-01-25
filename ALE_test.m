@@ -152,6 +152,44 @@ soundsc(e, 44100);
 
 %% test
 
-u = toeplitz([1 2 3]);
+   clc 
+   
+   mu = 0.9;
+   
+   M = 4;
+   
+   u = [1 2 3 4];
+   
+   d = [0 1 2 3];
+   
+   w=zeros(M,1);
+   
+   N=length(u);
+   
+   d=d(:);
+   
+   e=d;
+   
+   u=u(:);
+   
+   %Set up input signal matrix, dim. MxM (cf. example 1, Haykin p. 448) 
+   umat=toeplitz(u);
 
-disp(u)
+   %Set up vector with desired signal 
+   dvec=d;
+   
+   for i = 1:3
+
+   %calculate output signal (Eq.10.5)
+   yvec=umat*w
+   
+   %calculate error vector (Eq.10.8)
+   evec=dvec-yvec
+      
+   %calculate gradient estimate (Eq.10.11)
+   phi=umat.'*evec
+   
+   %update filter coefficients (Eq.10.10)
+   w=w+mu*phi
+   
+   end

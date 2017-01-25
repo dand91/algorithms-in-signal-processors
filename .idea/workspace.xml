@@ -14,7 +14,8 @@
   <component name="ChangeListManager">
     <list default="true" id="73231438-0d13-4dd8-aacc-746628169d9c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toeplitz_test_out" afterPath="$PROJECT_DIR$/toeplitz_test_out" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.c" afterPath="$PROJECT_DIR$/main.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ALE_test.m" afterPath="$PROJECT_DIR$/ALE_test.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/blocklms.m" afterPath="$PROJECT_DIR$/blocklms.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/toeplitz_test.c" afterPath="$PROJECT_DIR$/toeplitz_test.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -67,8 +68,8 @@
       <file leaf-file-name="toeplitz_test.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/toeplitz_test.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+            <state relative-caret-position="250">
+              <caret line="82" column="26" lean-forward="false" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -389,12 +390,12 @@
       <option name="presentableId" value="Default" />
       <updated>1485335242244</updated>
       <workItem from="1485335245281" duration="8452000" />
-      <workItem from="1485349434675" duration="6106000" />
+      <workItem from="1485349434675" duration="8289000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14558000" />
+    <option name="totallyTimeSpent" value="16741000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="24" width="1401" height="876" extended-state="6" />
@@ -560,8 +561,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/toeplitz_test.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="31" column="5" lean-forward="false" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+        <state relative-caret-position="250">
+          <caret line="82" column="26" lean-forward="false" selection-start-line="82" selection-start-column="26" selection-end-line="82" selection-end-column="26" />
           <folding />
         </state>
       </provider>

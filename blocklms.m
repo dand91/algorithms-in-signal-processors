@@ -26,8 +26,6 @@ Blocks=N/M;
 
 w_hist = [];
 
-delay = dsp.Delay(6);
-
 %Loop, BlockLMS
 for k=1:Blocks-1
        
@@ -35,7 +33,7 @@ for k=1:Blocks-1
    umat=toeplitz(u(k*M:1:(k+1)*M-1),u(k*M:-1:(k-1)*M+1));
    
    %Set up vector with desired signal 
-   dvec=delay(d(k*M:1:(k+1)*M-1));
+   dvec=d(k*M:1:(k+1)*M-1);
   
    %calculate output signal (Eq.10.5)
    yvec=umat*w;

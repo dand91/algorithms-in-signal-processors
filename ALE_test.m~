@@ -94,13 +94,16 @@ delay = dsp.Delay(10);
 s = eta1 + y;
 %s = eta1 + eta2 + y;
 
-%d = delay(s);
+d = delay(s);
 
-d = s;
+disp(d(1:1:100))
+
+
+%d = s;
 
 %[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
-[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
-%[e,y_out,w,w_hist] = nlms(0.1,filter_size,s,d,100);
+%[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
+[e,y_out,w,w_hist] = nlms(0.1,filter_size,s,d,100);
 
 figure()
 plot(e(1:1000))
@@ -147,15 +150,42 @@ plot(w_hist)
 soundsc(e, 44100);
 
 
-%% Delay test 
+%% test
+   
+   mu = 0.9;
+   
+   M = 4;
+   
+   w=zeros(M,1);
+   
+   N=length(u);
+   
+   d=d(:);
+   
+   e=d;
+   
+   u=u(:);
+   
+   u = [1 2 3 4];
+   
+   delay = dsp.Delay(1);
+   
+   d = delay(u);
 
-
-delay = dsp.Delay(D);
-
-% Algorithm
-
-s = fm_eta + y;
-
-d = delay(s);
-
-
+   %Set up input signal matrix, dim. MxM (cf. example 1, Haykin p. 448) 
+   umat=toeplitz(u);
+   
+   %Set up vector with desired signal 
+   dvec=d;
+  
+   %calculate output signal (Eq.10.5)
+   yvec=umat*w;
+   
+   %calculate error vector (Eq.10.8)
+   evec=dvec-yvec;
+      
+   %calculate gradient estimate (Eq.10.11)
+   phi=umat.'*evec;
+   
+   %update filter coefficients (Eq.10.10)
+   w=w+mu*phi;

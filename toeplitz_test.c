@@ -4,7 +4,6 @@
 
 #include <stdio.h>
 
-
 double mu = 0.9;
 int DSP_BLOCK_SIZE = 4;
 int DELAY_SIZE = 1;
@@ -38,58 +37,108 @@ void block_lms(double u[], double e[], double w[]){
     double u_m[DSP_BLOCK_SIZE][DSP_BLOCK_SIZE];
     for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
         for (int j = i; j < DSP_BLOCK_SIZE; ++j) {
-            u_m[i][j] = u[j-i];
-            u_m[j][i] = u[j-i];
+            u_m[i][j] = u[j - i];
+            u_m[j][i] = u[j - i];
         }
     }
+
+            // print
+            printf("u_m:\n");
+            for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+                for (int j = 0; j < DSP_BLOCK_SIZE; ++j) {
+                    printf("  %f",u_m[i][j]);
+                }
+                printf("\n");
+            }
+            printf("\n");
+            // end print
 
     // Delayed signal
     double d[DSP_BLOCK_SIZE];
-    for(int nn=0; nn<DELAY_SIZE; ++nn) {
+    for (int nn = 0; nn < DELAY_SIZE; ++nn) {
         d[nn] = 0;
     }
-    for(int nn=0; nn<DSP_BLOCK_SIZE-DELAY_SIZE; ++nn) {
-        d[nn] = u[nn + DELAY_SIZE];
+
+    for (int nn = DELAY_SIZE; nn < DSP_BLOCK_SIZE; ++nn) {
+        d[nn] = u[nn - DELAY_SIZE];
     }
 
-    // yvec=umat*w;
-    double y[DSP_BLOCK_SIZE];
-    for(int i=0; i<DSP_BLOCK_SIZE; ++i) {
-        int y_t = 0;
-        for(int j=0; j<DSP_BLOCK_SIZE; ++j) {
+            // print
+            printf("d:\n");
+            for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+                printf("  %f", d[nn]);
+            }
+            printf("\n");
+            printf("\n");
+            // end print
 
-            y_t += w[i]*u_m[i][j];
+    for(int n=0; n<3; ++n) {  // Iterations
+
+        // yvec=umat*w;
+        double y[DSP_BLOCK_SIZE];
+        for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+            int y_t = 0;
+            for (int j = 0; j < DSP_BLOCK_SIZE; ++j) {
+
+                y_t += w[j] * u_m[i][j];
+            }
+            y[i] = y_t;
         }
-        y[i] = y_t;
-    }
 
-    //evec=d-yvec;
+                // print
+                printf("y: ");
+                for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+                    printf("  %f", y[nn]);
+                }
+                printf("\n");
+                // end print
 
-    for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
-        e[nn] = d[nn]-y[nn];
-    }
-
-    //phi=umat.'*evec;
-
-    double phi[DSP_BLOCK_SIZE];
-    for(int i=0; i<DSP_BLOCK_SIZE; ++i) {
-        int phi_t = 0;
-        for(int j=0; j<DSP_BLOCK_SIZE; ++j) {
-
-            phi_t += e[i]*u_m[i][j];
+        //evec=d-yvec;
+        for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+            e[nn] = d[nn] - y[nn];
         }
-        phi[i] = phi_t;
+
+                // print
+                printf("e: ");
+                for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+                    printf("  %f", e[nn]);
+                }
+                printf("\n");
+                // end print
+
+        //phi=umat.'*evec;
+        double phi[DSP_BLOCK_SIZE];
+        for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+            int phi_t = 0;
+            for (int j = 0; j < DSP_BLOCK_SIZE; ++j) {
+
+                phi_t += u_m[i][j] * e[j];
+            }
+            phi[i] = phi_t;
+        }
+
+                // print
+                printf("phi: ");
+                for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+                    printf("  %f", phi[nn]);
+                }
+                printf("\n");
+                // end print
+
+        //w=w+mu*phi;
+        for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+            w[nn] = w[nn] + mu * phi[nn];
+        }
+
+                // print
+                printf("w: ");
+                for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+                    printf("  %f", w[nn]);
+                }
+                printf("\n");
+                // end print
     }
 
-    //w=w+mu*phi;
-    for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
-        w[nn] = w[nn]+mu*phi[nn];
-    }
-
-    for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
-        printf("  %f", e[nn]);
-    }
-    printf("\n");
 
 }
 
