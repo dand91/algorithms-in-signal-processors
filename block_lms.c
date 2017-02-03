@@ -8,7 +8,7 @@
 //#include <framework.h>
 
 double mu = 0.01;
-int DELAY_SIZE = 3;
+int DELAY_SIZE = 2;
 int print = 1;
 int DSP_BLOCK_SIZE = 4;
 
@@ -231,7 +231,7 @@ int main(){
 
     int u_1_s = 0;
     int u_2_s = DSP_BLOCK_SIZE - 1;
-    int d_s = u_2_s - DELAY_SIZE + 1;
+    int d_s = u_2_s - DELAY_SIZE ;
 
     double buffer[7] = {1, 2, 3, 4, 5 ,6 ,7};
 
