@@ -65,8 +65,8 @@
       <file leaf-file-name="block_lms.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/block_lms.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1684">
-              <caret line="146" column="9" lean-forward="false" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
+            <state relative-caret-position="-1623">
+              <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -108,6 +108,7 @@
     <findStrings>
       <find>u_s</find>
       <find>%</find>
+      <find>u[</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -411,12 +412,12 @@
       <workItem from="1485862530847" duration="4214000" />
       <workItem from="1485881547008" duration="1281000" />
       <workItem from="1485947826662" duration="8703000" />
-      <workItem from="1486116282588" duration="9574000" />
+      <workItem from="1486116282588" duration="9714000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48066000" />
+    <option name="totallyTimeSpent" value="48206000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="24" width="1401" height="876" extended-state="6" />
@@ -801,8 +802,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/block_lms.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1684">
-          <caret line="146" column="9" lean-forward="false" selection-start-line="146" selection-start-column="9" selection-end-line="146" selection-end-column="9" />
+        <state relative-caret-position="-1623">
+          <caret line="90" column="13" lean-forward="false" selection-start-line="90" selection-start-column="12" selection-end-line="90" selection-end-column="13" />
           <folding />
         </state>
       </provider>
