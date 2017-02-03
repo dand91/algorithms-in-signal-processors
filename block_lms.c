@@ -7,8 +7,8 @@
 //#include <block_lms.h>
 //#include <framework.h>
 
-double mu = 0.9;
-int DELAY_SIZE = 2;
+double mu = 0.01;
+int DELAY_SIZE = 3;
 int print = 1;
 int DSP_BLOCK_SIZE = 4;
 
@@ -54,7 +54,7 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
 
         printf("buffer:\n");
-        for (int nn = 0; nn < DSP_BLOCK_SIZE*2 + DELAY_SIZE-1; ++nn) {
+        for (int nn = 0; nn < DSP_BLOCK_SIZE*2 -1; ++nn) {
             printf("  %f", u[nn]);
         }
         printf("\n");
@@ -62,21 +62,21 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
         printf("u1:\n");
             for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-                printf("  %f", u[(u_1_s + nn) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)]);
+                printf("  %f", u[(u_1_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
             }
             printf("\n");
             printf("\n");
 
         printf("u2:\n");
         for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-            printf("  %f", u[(u_2_s + nn) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)]);
+            printf("  %f", u[(u_2_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
         }
         printf("\n");
         printf("\n");
 
         printf("d:\n");
             for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-                printf("  %f", u[(d_s + nn) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)]);
+                printf("  %f", u[(d_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
             }
             printf("\n");
             printf("\n");
@@ -144,10 +144,10 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
         double y_t = 0;
 
         for (int j = i; j < DSP_BLOCK_SIZE; ++j) {
-            y_t += w[j] * u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)];
+            y_t += w[j] * u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
         for (int j = 0; j < i; ++j) {
-            y_t += w[j] * u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)];
+            y_t += w[j] * u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
 
         y[i] = y_t;
@@ -165,7 +165,7 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
     }
     //evec=d-yvec;
     for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-        e[nn] = u[(d_s + nn)  % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1) ] - y[nn];
+        e[nn] = u[(d_s + nn)  % (DSP_BLOCK_SIZE*2 -1) ] - y[nn];
     }
     if(print){
             // print
@@ -186,11 +186,11 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
         int phi_t = 0;
 
         for (int j = i; j < DSP_BLOCK_SIZE; ++j) {
-            phi_t += u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)] * e[j];
+            phi_t += u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
 
         }
         for (int j = 0; j < i; ++j) {
-            phi_t += u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)] * e[j];
+            phi_t += u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
 
         }
         phi[i] = phi_t;
@@ -225,45 +225,43 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 int main(){
 
 
-    toeplitz_test();
+//    toeplitz_test();
+
+    double X_v[16] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0};
+
+    int u_1_s = 0;
+    int u_2_s = DSP_BLOCK_SIZE - 1;
+    int d_s = u_2_s - DELAY_SIZE + 1;
+
+    double buffer[7] = {1, 2, 3, 4, 5 ,6 ,7};
+
+    double Y[DSP_BLOCK_SIZE];
+    double w[DSP_BLOCK_SIZE];
+
+    int counter = DSP_BLOCK_SIZE ;
+
+    for (int k = 0; k < 3; ++k) {
+
+        if(k == 0){
 
 
-//    double X_v[16] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0};
-//
-//    int d_s = DSP_BLOCK_SIZE-1;
-//    int u_1_s = DELAY_SIZE;
-//    int u_2_s = DELAY_SIZE + DSP_BLOCK_SIZE - 1;
-//
-//    double buffer[9] = {0, 0, 1, 2, 3, 4, 5 ,6 ,7};
-//
-//    double Y[DSP_BLOCK_SIZE];
-//    double w[DSP_BLOCK_SIZE];
-//
-//    int counter = DSP_BLOCK_SIZE + DELAY_SIZE;
-//
-//    for (int k = 0; k < 3; ++k) {
-//
-//        if(k == 0){
-//
-//
-//        }else{
-//
-//            for(int i=0; i<DSP_BLOCK_SIZE; ++i) {
-//
-//                counter++;
-//                buffer[(u_2_s  + i) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1)] = X_v[counter];
-//
-//            }
-//        }
-//
-//        block_lms(buffer, Y, w, u_1_s,u_2_s, d_s);
-//
-//        u_1_s = (u_1_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1);
-//        u_2_s = (u_2_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 + DELAY_SIZE-1);
-//
-//        d_s = u_1_s + DELAY_SIZE-1;
-//
-//
-//    }
+        }else{
+
+            for(int i=0; i<DSP_BLOCK_SIZE; ++i) {
+
+                counter++% (DSP_BLOCK_SIZE*2 -1);
+                buffer[(u_2_s  + i) % (DSP_BLOCK_SIZE*2 -1)] = X_v[counter];
+
+            }
+        }
+
+        block_lms(buffer, Y, w, u_1_s,u_2_s, d_s);
+
+        u_1_s = (u_1_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+        u_2_s = (u_2_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+        d_s = (d_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+
+
+    }
 
 }

@@ -14,6 +14,7 @@ y = y_t(1:44100*5);
 
 soundsc(y, 44100);
 
+
 %% Generate sinusoid
 
 sine = dsp.SineWave('Amplitude',0.5,'Frequency',1000,...
