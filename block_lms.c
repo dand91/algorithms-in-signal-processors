@@ -45,6 +45,11 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
     if(print){
 
+        int nn;
+        int n;
+        int j;
+        int i;
+
             // print
         printf("\n**********\nNew iteration\n**********\n");
 
@@ -54,28 +59,28 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
 
         printf("buffer:\n");
-        for (int nn = 0; nn < DSP_BLOCK_SIZE*2 -1; ++nn) {
+        for ( nn = 0; nn < DSP_BLOCK_SIZE*2 -1; ++nn) {
             printf("  %f", u[nn]);
         }
         printf("\n");
         printf("\n");
 
         printf("u1:\n");
-            for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+            for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", u[(u_1_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
             }
             printf("\n");
             printf("\n");
 
         printf("u2:\n");
-        for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+        for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
             printf("  %f", u[(u_2_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
         }
         printf("\n");
         printf("\n");
 
         printf("d:\n");
-            for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+            for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", u[(d_s + nn) % (DSP_BLOCK_SIZE*2 -1)]);
             }
             printf("\n");
@@ -139,14 +144,14 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
     // yvec=umat*w;
     double y[DSP_BLOCK_SIZE];
-    for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
         double y_t = 0;
 
-        for (int j = i; j < DSP_BLOCK_SIZE; ++j) {
+        for ( j = i; j < DSP_BLOCK_SIZE; ++j) {
             y_t += w[j] * u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
-        for (int j = 0; j < i; ++j) {
+        for ( j = 0; j < i; ++j) {
             y_t += w[j] * u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
 
@@ -157,20 +162,20 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
     if(print){
             // print
             printf("y: ");
-            for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+            for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", y[nn]);
             }
             printf("\n");
             // end print
     }
     //evec=d-yvec;
-    for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+    for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
         e[nn] = u[(d_s + nn)  % (DSP_BLOCK_SIZE*2 -1) ] - y[nn];
     }
     if(print){
             // print
             printf("e: ");
-            for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+            for( nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", e[nn]);
             }
             printf("\n");
@@ -182,14 +187,14 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
 
 
 
-    for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
         int phi_t = 0;
 
-        for (int j = i; j < DSP_BLOCK_SIZE; ++j) {
+        for ( j = i; j < DSP_BLOCK_SIZE; ++j) {
             phi_t += u[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
 
         }
-        for (int j = 0; j < i; ++j) {
+        for ( j = 0; j < i; ++j) {
             phi_t += u[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
 
         }
@@ -200,21 +205,21 @@ void block_lms(double u[], double e[], double w[],int u_1_s, int u_2_s, int d_s)
     if(print){
             // print
             printf("phi: ");
-            for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+            for( nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", phi[nn]);
             }
             printf("\n");
             // end print
     }
     //w=w+mu*phi;
-    for (int nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
+    for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
         w[nn] = w[nn] + mu * phi[nn];
     }
 
     if(print){
             // print
             printf("w: ");
-            for(int nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
+            for( nn=0; nn<DSP_BLOCK_SIZE; ++nn) {
                 printf("  %f", w[nn]);
             }
             printf("\n");
@@ -240,14 +245,17 @@ int main(){
 
     int counter = DSP_BLOCK_SIZE ;
 
-    for (int k = 0; k < 3; ++k) {
+    int k;
+    int i;
+
+    for ( k = 0; k < 3; ++k) {
 
         if(k == 0){
 
 
         }else{
 
-            for(int i=0; i<DSP_BLOCK_SIZE; ++i) {
+            for( i=0; i<DSP_BLOCK_SIZE; ++i) {
 
                 counter++% (DSP_BLOCK_SIZE*2 -1);
                 buffer[(u_2_s  + i) % (DSP_BLOCK_SIZE*2 -1)] = X_v[counter];
