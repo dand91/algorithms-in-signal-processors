@@ -10,17 +10,18 @@
 statis int DELAY_SIZE = 3;
 static float X[DSP_BLOCK_SIZE];         // temporary input signal
 static float Y[DSP_BLOCK_SIZE];         // temporary output signal
+static float w[DSP_BLOCK_SIZE];         // temporary output signal
 static int enable;
 static int ledcounter;
 
 void process(int sig)
 {
 
-    double w[DSP_BLOCK_SIZE];         // Initial filter coeff.
-
-    for(n=0; n<DSP_BLOCK_SIZE; ++n) {
-        w[n] = 0;
-    }
+//    double w[DSP_BLOCK_SIZE];         // Initial filter coeff.
+//
+//    for(n=0; n<DSP_BLOCK_SIZE; ++n) {
+//        w[n] = 0;
+//    }
 
     int n;
 
@@ -69,65 +70,6 @@ static void timer(int sig)
     dsp_set_leds(ledcounter);
 }
 
-void block_lms(X, Y, w){
-
-    // Input signal
-    u = X;
-
-    //umat=toeplitz(u(k*M:1:(k+1)*M-1),u(k*M:-1:(k-1)*M+1));
-
-    int u_m[N][N];
-    for (int i = 0; i < N; ++i) {
-        for (int j = i; j < N; ++j) {
-            u_m[i][j] = u[j-i];
-            u_m[j][i] = u[j-i];
-        }
-    }
-
-    // Delayed signal
-    double d[DSP_BLOCK_SIZE];
-    for(nn=0; nn<DELAY_SIZE; ++nn) {
-        d[nn] = 0;
-    }
-    for(nn=0; nn<DSP_BLOCK_SIZE-DELAY_SIZE; ++nn) {
-        d[nn] = u[nn + DELAY_SIZE];
-    }
-
-    // yvec=umat*w;
-    double y[DSP_BLOCK_SIZE];
-    for(i=0; i<DSP_BLOCK_SIZE-DELAY_SIZE; ++i) {
-        y_t = 0;
-        for(j=0; j<DSP_BLOCK_SIZE-DELAY_SIZE; ++j) {
-
-               y_t += w[i]*u_m[i][j];
-        }
-        y[i] = y_t;
-    }
-
-    //evec=d-yvec;
-    for(nn=0; nn<DELAY_SIZE; ++nn) {
-        e[nn] = d[nn]-y[nn];
-    }
-
-    //phi=umat.'*evec;
-    double phi[DSP_BLOCK_SIZE];
-    for(i=0; i<DSP_BLOCK_SIZE-DELAY_SIZE; ++i) {
-        phi_t = 0;
-        for(j=0; j<DSP_BLOCK_SIZE-DELAY_SIZE; ++j) {
-
-            phi_t += e[i]*u_m[i][j];
-        }
-        phi[i] = phi_t;
-    }
-
-    //w=w+mu*phi;
-    for(nn=0; nn<DELAY_SIZE; ++nn) {
-        w[nn] = w[nn]+mu*phi[nn];
-    }
-
-    Y = e;
-
-}
 
 void main()
 {

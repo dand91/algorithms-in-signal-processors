@@ -37,7 +37,7 @@ for i = 1:5
     
 end
 
-eta1 = eta1_1+eta1_2;
+eta1 = eta1_1;
 
 %% Generate colored noise
 
@@ -79,7 +79,7 @@ plot(y(1:500) + eta(1:500))
 
 % Value 
 
-block_size = 100;
+block_size = 5;
 
 filter_size = block_size;
 
@@ -87,7 +87,7 @@ filter_size = block_size;
 
 D = block_size;
 
-delay = dsp.Delay(10);
+delay = dsp.Delay(block_size);
 
 % Algorithm
 
@@ -98,12 +98,11 @@ d = delay(s);
 
 disp(d(1:1:100))
 
-
 %d = s;
 
 %[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
 %[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
-[e,y_out,w,w_hist] = nlms(0.1,filter_size,s,d,100);
+[e,y_out,w,w_hist] = nlms(0.5,filter_size,s,d,100);
 
 figure()
 plot(e(1:1000))
@@ -151,41 +150,51 @@ soundsc(e, 44100);
 
 
 %% test
-   
-   mu = 0.9;
-   
-   M = 4;
-   
-   w=zeros(M,1);
-   
-   N=length(u);
-   
-   d=d(:);
-   
-   e=d;
-   
-   u=u(:);
-   
-   u = [1 2 3 4];
-   
-   delay = dsp.Delay(1);
-   
-   d = delay(u);
 
-   %Set up input signal matrix, dim. MxM (cf. example 1, Haykin p. 448) 
-   umat=toeplitz(u);
-   
-   %Set up vector with desired signal 
-   dvec=d;
+clc
+
+block_size = 4;
+
+filter_size = block_size;
+
+% Delay 
+
+D = block_size;
+
+mu = 0.9
+
+delayy = dsp.Delay(2);
+
+u = [1 2 3 4 5 6 7 8 9 10 11 12]
+
+d = [0 0 1 2 3 4 5 6 7 8 9 10 11 12]
+
+M = filter_size;
+
+w=zeros(M,1);
+N=length(u);
+
+d=d(:);
+e=d;
+u=u(:);
+
+Blocks=N/M;
+
+
+for k = 1:3
+       
+   umat=toeplitz(u(k*M:1:(k+1)*M-1),u(k*M:-1:(k-1)*M+1))
+   dvec=d(k*M:1:(k+1)*M-1)
   
-   %calculate output signal (Eq.10.5)
-   yvec=umat*w;
+   yvec=umat*w
    
-   %calculate error vector (Eq.10.8)
    evec=dvec-yvec;
-      
-   %calculate gradient estimate (Eq.10.11)
-   phi=umat.'*evec;
    
-   %update filter coefficients (Eq.10.10)
-   w=w+mu*phi;
+   e(k*M:1:(k+1)*M-1)=evec
+   
+   phi=umat.'*evec
+   
+   w=w+mu*phi
+   
+end
+
