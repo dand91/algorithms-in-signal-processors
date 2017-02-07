@@ -7,7 +7,7 @@
 //#include <block_lms.h>
 //#include <framework.h>
 
-double mu = 0.01;
+double mu = 0.9;
 int DELAY_SIZE = 2;
 int print = 1;
 int DSP_BLOCK_SIZE = 4;
@@ -21,13 +21,14 @@ int DSP_BLOCK_SIZE = 4;
 
     int a_m[N][N];
 
-    for (int i = 0; i < N; ++i) {
+    for (int j = 0; j < N; ++j) {
 
-        for (int j = i; j < N; ++j) {
-            a_m[i][j] = a[N-1-(j-i)];
+        for (int i = j; i < N; ++i) {
+            a_m[i][j] = a[N-1-(i-j)];
         }
-        for (int j = 0; j < i; ++j) {
-            a_m[i][j] = b[-(j-i)];
+
+        for (int i = 0; i < j; ++i) {
+            a_m[i][j] = b[-(i-j)];
         }
     }
 
@@ -41,14 +42,15 @@ int DSP_BLOCK_SIZE = 4;
 }
 
 
-void block_lms(){
+void block_lms(double buffer[],double e[],double w[],int u_1_s,int u_2_s,int d_s){
+
+
+    int nn;
+    int n;
+    int j;
+    int i;
 
     if(print){
-
-        int nn;
-        int n;
-        int j;
-        int i;
 
             // print
         printf("\n**********\nNew iteration\n**********\n");
@@ -60,7 +62,7 @@ void block_lms(){
 
         printf("buffer:\n");
         for ( nn = 0; nn < DSP_BLOCK_SIZE*2 -1; ++nn) {
-            printf("  %f", buffer[nn]);
+            printf("  %f", buffer[nn] );
         }
         printf("\n");
         printf("\n");
@@ -85,6 +87,23 @@ void block_lms(){
             }
             printf("\n");
             printf("\n");
+
+        printf("\n");
+        printf("\n");
+
+        printf("uto:\n");
+        for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+            int phi_t = 0;
+
+            for (j = i; j < DSP_BLOCK_SIZE; ++j) {
+                phi_t += buffer[(u_2_s + DSP_BLOCK_SIZE - 1 - (j - i)) % (DSP_BLOCK_SIZE * 2 - 1)] * e[j];
+
+            }
+            for (j = 0; j < i; ++j) {
+                phi_t += buffer[(u_1_s + -(j - i)) % (DSP_BLOCK_SIZE * 2 - 1)] * e[j];
+
+            }
+        }
                 // end print
     }
 
@@ -116,7 +135,7 @@ void block_lms(){
     }
     //evec=d-yvec;
     for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-        e[nn] = buffer[(d_s + nn)  % (DSP_BLOCK_SIZE*2 -1) ] - y[nn];
+        e[nn] = buffer[(d_s + nn) ] - y[nn];
     }
     if(print){
             // print
@@ -129,25 +148,20 @@ void block_lms(){
     }
     //phi=umat.'*evec;
     double phi[DSP_BLOCK_SIZE];
+    for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {
 
-
-
-
-    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
         int phi_t = 0;
 
-        for ( j = i; j < DSP_BLOCK_SIZE; ++j) {
-            phi_t += buffer[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
+        for (i = j; i < DSP_BLOCK_SIZE; ++i) {
+            phi_t += buffer[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[i];
 
         }
-        for ( j = 0; j < i; ++j) {
-            phi_t += buffer[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)] * e[j];
+        for ( i = 0; i < j; ++i) {
+            phi_t += buffer[ ( u_2_s + -(j-i))% (DSP_BLOCK_SIZE*2 -1)] * e[i];
 
         }
-        phi[i] = phi_t;
+        phi[j] = phi_t;
     }
-
-
     if(print){
             // print
             printf("phi: ");
@@ -189,7 +203,7 @@ int main(){
     double Y[DSP_BLOCK_SIZE];
     double w[DSP_BLOCK_SIZE];
 
-    int counter = DSP_BLOCK_SIZE ;
+    int counter = 7 ;
 
     int k;
     int i;
@@ -203,13 +217,14 @@ int main(){
 
             for( i=0; i<DSP_BLOCK_SIZE; ++i) {
 
-                counter++% (DSP_BLOCK_SIZE*2 -1);
-                buffer[(u_2_s  + i) % (DSP_BLOCK_SIZE*2 -1)] = X_v[counter];
+                buffer[(u_2_s  + i) ] = X_v[counter];
+                counter++;
+
 
             }
         }
 
-        block_lms();
+        block_lms(buffer,Y,w,u_1_s,u_2_s,d_s);
 
         u_1_s = (u_1_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
         u_2_s = (u_2_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);

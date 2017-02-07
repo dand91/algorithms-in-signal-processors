@@ -1,6 +1,6 @@
 %% MP3 File as input 
 
-y = dsp.AudioFileReader('handel.ogg','SamplesPerFrame',44100);
+y = dsp.AudioFileReader('handel.ogg','SamplesPerFrame',48000);
 
 y_t = [];
 
@@ -8,23 +8,25 @@ for i = 1:5
     y_t = [y_t;y.step()];
 end
 
-y = y_t(1:44100*5);
+y = y_t(1:48000*5);
 
 %% Listen to audio
 
-soundsc(y, 44100);
+while true
+    
+    soundsc(y, 48000);
 
-
+end
 %% Generate sinusoid
 
 sine = dsp.SineWave('Amplitude',0.5,'Frequency',1000,...
-    'SampleRate',44100,...
-    'SamplesPerFrame',44100);
+    'SampleRate',48000,...
+    'SamplesPerFrame',48000);
 
 
 sine2 = dsp.SineWave('Amplitude',0.5,'Frequency',500,...
-    'SampleRate',44100,...
-    'SamplesPerFrame',44100);
+    'SampleRate',48000,...
+    'SamplesPerFrame',48000);
 
 eta1 = [];
 eta1_1 = [];
@@ -56,16 +58,16 @@ eta2=eta2(filter_length:end)/20;
 
 %% Listen to sinusoid 
 
-soundsc(eta1, 44100);
+soundsc(y*2, 48000);
 
 %% Listen to mixed signal
+    
+soundsc(y + eta1, 48000);
 
-soundsc(y + eta1, 44100);
-
-%% Listen to mixed signal
-
-soundsc(y + eta1 + eta2, 44100);
-
+%% Listen to mixed signalz
+while true
+    soundsc(y + eta1/10, 48000);
+end
 %% Print pre signals 
 
 plot(y(1:500))
@@ -80,7 +82,7 @@ plot(y(1:500) + eta(1:500))
 
 % Value 
 
-block_size = 5;
+block_size = 200;
 
 filter_size = block_size;
 
@@ -97,13 +99,11 @@ s = eta1 + y;
 
 d = delay(s);
 
-disp(d(1:1:100))
-
 %d = s;
 
 %[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
-%[e,w,w_hist] = blocklms(0.00001,filter_size,s,d);
-[e,y_out,w,w_hist] = nlms(0.5,filter_size,s,d,100);
+[e,w,w_hist] = blocklms(0.0001,filter_size,s,d);
+%[e,y_out,w,w_hist] = nlms(0.5,filter_size,s,d,100);
 
 figure()
 plot(e(1:1000))
@@ -131,7 +131,7 @@ filter_size = block_size;
 
 % Delay 
 
-D = block_size;
+D = 50;
 
 delay = dsp.Delay(D);
 
@@ -160,15 +160,15 @@ filter_size = block_size;
 
 % Delay 
 
-D = block_size;
+D = 2;
 
 mu = 0.9
 
 delayy = dsp.Delay(2);
 
-u = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+u = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
 
-d = [0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16]
+d = [0 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14];
 
 M = filter_size;
 
@@ -192,7 +192,9 @@ for k = 1:3
    
    evec=dvec-yvec;
    
-   e(k*M:1:(k+1)*M-1)=evec
+   e(k*M:1:(k+1)*M-1)=evec;
+   
+   evec
    
    phi=umat.'*evec
    
