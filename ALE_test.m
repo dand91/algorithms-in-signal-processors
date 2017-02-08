@@ -12,11 +12,8 @@ y = y_t(1:48000*5);
 
 %% Listen to audio
 
-while true
-    
-    soundsc(y, 48000);
+soundsc(y, 48000);
 
-end
 %% Generate sinusoid
 
 sine = dsp.SineWave('Amplitude',0.5,'Frequency',1000,...
@@ -202,3 +199,57 @@ for k = 1:3
    
 end
 
+%% test2 
+
+DSP_BLOCK_SIZE = int32(50);
+DELAY_SIZE = int32(48);
+mu = 0.0001;
+
+u = y + eta1;
+
+u_1_s = int32(0);
+u_2_s = int32(DSP_BLOCK_SIZE - 1);
+d_s = int32(u_2_s - DELAY_SIZE);
+
+w = zeros(1,DSP_BLOCK_SIZE);
+w_h = [];
+
+buffer = zeros(1,DSP_BLOCK_SIZE*2 -1);
+
+N=length(u);
+
+blocks= N/DSP_BLOCK_SIZE;
+
+counter = 1;
+e_v = [];
+
+for k=1:blocks
+       
+    for l = 1:DSP_BLOCK_SIZE
+        
+        index = mod( (u_2_s  + l),(DSP_BLOCK_SIZE*2 -1)) +1;
+        
+        buffer(index) = u(counter);
+        counter = counter + 1;
+        
+    end
+           
+    [e,w] = block_m(DSP_BLOCK_SIZE,DELAY_SIZE,mu,buffer,w,u_1_s,u_2_s,d_s);
+    
+    e_v = [e_v;e];   
+    w_h = [w_h,w];
+
+    u_1_s = mod((u_1_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
+    u_2_s = mod((u_2_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
+    d_s = mod((d_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
+   
+end
+  
+% Plot 
+
+plot(w_h')
+figure()
+plot(e_v)
+
+%%
+soundsc(e_v, 44100);

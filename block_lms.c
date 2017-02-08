@@ -6,6 +6,7 @@
 #include <stdlib.h>
 //#include <block_lms.h>
 //#include <framework.h>
+#include "mex.h"
 
 double mu = 0.9;
 int DELAY_SIZE = 2;
@@ -108,15 +109,20 @@ void block_lms(double buffer[],double e[],double w[],int u_1_s,int u_2_s,int d_s
     }
 
     // yvec=umat*w;
+    int a_m[DSP_BLOCK_SIZE][DSP_BLOCK_SIZE];
     double y[DSP_BLOCK_SIZE];
+
     for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
         double y_t = 0;
 
         for ( j = i; j < DSP_BLOCK_SIZE; ++j) {
+
+            a_m[i][j] = buffer[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
             y_t += w[j] * buffer[ (u_1_s + DSP_BLOCK_SIZE-1-(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
         for ( j = 0; j < i; ++j) {
+            a_m[i][j] = buffer[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
             y_t += w[j] * buffer[ ( u_2_s + -(j-i)) % (DSP_BLOCK_SIZE*2 -1)];
         }
 
@@ -124,6 +130,12 @@ void block_lms(double buffer[],double e[],double w[],int u_1_s,int u_2_s,int d_s
 
     }
 
+    for (int i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        for (int j = 0; j < DSP_BLOCK_SIZE; ++j) {
+            printf("  %d",a_m[i][j]);
+        }
+        printf("\n");
+    }
     if(print){
             // print
             printf("y: ");
@@ -198,8 +210,6 @@ int main(){
     int u_2_s = DSP_BLOCK_SIZE - 1;
     int d_s = u_2_s - DELAY_SIZE ;
 
-    double buffer[7] = {1, 2, 3, 4, 5 ,6 ,7};
-
     double Y[DSP_BLOCK_SIZE];
     double w[DSP_BLOCK_SIZE];
 
@@ -219,7 +229,6 @@ int main(){
 
                 buffer[(u_2_s  + i) ] = X_v[counter];
                 counter++;
-
 
             }
         }
