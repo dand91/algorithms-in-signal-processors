@@ -5,7 +5,53 @@
 #include <stdlib.h>
 #include <string.h>
 
+
+
+
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
+
+    static int DSP_BLOCK_SIZE = 100;
+    static double mu = 0.01;
+    int i;
+
+    double u[DSP_BLOCK_SIZE], w[DSP_BLOCK_SIZE];
+    double *d;
+
+    d = mxGetPr(prhs[2]);
+
+    double *t1,*t2;
+
+    t1 = mxGetPr(prhs[0]);
+    t2 = mxGetPr(prhs[1]);
+
+
+    double y;
+    double e;
+
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        w[i] = t1[i];
+        u[i] = t2[i];
+        y += w[i]*u[i];
+
+    }
+
+    e = *d-y;
+
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+
+        w[i] = w[i]+mu*u[i]*e;
+
+    }
+
+    plhs[0] = mxCreateDoubleScalar(e);
+
+    plhs[1] = mxCreateDoubleMatrix(DSP_BLOCK_SIZE,1,mxREAL);
+    memcpy( mxGetPr(plhs[1]) , w, sizeof(w));
+
+
+}
+
+void mexFunction2(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
 
     static int DSP_BLOCK_SIZE = 5;
@@ -62,11 +108,11 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     double u_o[DSP_BLOCK_SIZE];
 
     for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-         e[nn] = buffer[(*d_s + nn) % (DSP_BLOCK_SIZE*2 -1)] -y[nn];
+         e[nn] = buffer[(*d_s + nn) % (DSP_BLOCK_SIZE*2 -1)] - y[nn];
          u_o[nn] = buffer[(*u_2_s + nn) % (DSP_BLOCK_SIZE*2 -1)];
     }
 
-    memcpy( mxGetPr(plhs[0]) , u_o, sizeof(u_o));
+    memcpy( mxGetPr(plhs[0]) , e, sizeof(e));
 
     double phi[DSP_BLOCK_SIZE];
     for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {

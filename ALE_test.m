@@ -79,7 +79,7 @@ plot(y(1:500) + eta(1:500))
 
 % Value 
 
-block_size = 200;
+block_size = 5;
 
 filter_size = block_size;
 
@@ -87,7 +87,7 @@ filter_size = block_size;
 
 D = block_size;
 
-delay = dsp.Delay(block_size);
+delay = dsp.Delay(2);
 
 % Algorithm
 
@@ -98,8 +98,8 @@ d = delay(s);
 
 %d = s;
 
-%[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
-[e,w,w_hist] = blocklms(0.0001,filter_size,s,d);
+[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
+%[e,w,w_hist] = blocklms(0.005,filter_size,s,d);
 %[e,y_out,w,w_hist] = nlms(0.5,filter_size,s,d,100);
 
 figure()
@@ -138,8 +138,8 @@ s = fm_eta + y;
 
 d = delay(s);
     
-%[e,w,w_hist] = lms(0.1,filter_size,s,d);
-[e,y_out] = blocklms(0.01,filter_size,s,d);
+[e,w,w_hist] = lms(0.1,filter_size,s,d);
+%[e,y_out] = blocklms(0.01,filter_size,s,d);
 %[e,y_out] = nlms(0.1,filter_size,s,d,100);
    
 plot(e)
@@ -203,6 +203,8 @@ end
 
 clc
 
+
+
 DSP_BLOCK_SIZE = int32(5);
 DELAY_SIZE = int32(2);
 mu = 0.01;
@@ -253,6 +255,45 @@ close all
 %plot(w_h')
 %figure(2)
 %plot(e_v)
+
+%% test3 
+
+clc
+
+block_size =100;
+delay = dsp.Delay(100);
+
+u = eta1 + y;
+
+d = delay(u);
+
+w = zeros(1,block_size);
+w_h = [];
+
+N=length(u);
+
+e_v = [];
+
+for k=block_size:block_size+40000
+    
+    uvec=u(k:-1:k-block_size+1);
+    
+    d_val = d(k);
+
+    [e,w] = block_m(w,uvec,d_val);
+      
+    e_v = [e_v;e];   
+    w_h = [w_h,w];
+    
+end
+  
+% Plot 
+close all
+figure(1)
+plot(w_h')
+figure(2)
+plot(e_v)
+
 
 %%
 close all

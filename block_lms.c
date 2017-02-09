@@ -6,7 +6,6 @@
 #include <stdlib.h>
 //#include <block_lms.h>
 //#include <framework.h>
-#include "mex.h"
 
 double mu = 0.9;
 int DELAY_SIZE = 2;
@@ -15,22 +14,17 @@ int DSP_BLOCK_SIZE = 4;
 
  void toeplitz_test(void){
 
-     int a[5] = {1,2,3,4,5};
-     int b[5] = {5,6,7,8,9};
+     int a[9] = {1,2,3,4,5,6,7,8,9};
 
      int N = sizeof(a)/sizeof(int);
 
     int a_m[N][N];
 
     for (int j = 0; j < N; ++j) {
-
-        for (int i = j; i < N; ++i) {
-            a_m[i][j] = a[N-1-(i-j)];
+        for (int i = 0; i < N; ++i) {
+            a_m[i][j] = a[abs(i-j)];
         }
 
-        for (int i = 0; i < j; ++i) {
-            a_m[i][j] = b[-(i-j)];
-        }
     }
 
 
@@ -41,6 +35,7 @@ int DSP_BLOCK_SIZE = 4;
         printf("\n");
     }
 }
+
 
 
 void block_lms(double buffer[],double e[],double w[],int u_1_s,int u_2_s,int d_s){
@@ -202,44 +197,44 @@ void block_lms(double buffer[],double e[],double w[],int u_1_s,int u_2_s,int d_s
 int main(){
 
 
-//    toeplitz_test();
-
-    double X_v[16] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0};
-
-    int u_1_s = 0;
-    int u_2_s = DSP_BLOCK_SIZE - 1;
-    int d_s = u_2_s - DELAY_SIZE ;
-
-    double Y[DSP_BLOCK_SIZE];
-    double w[DSP_BLOCK_SIZE];
-
-    int counter = 7 ;
-
-    int k;
-    int i;
-
-    for ( k = 0; k < 3; ++k) {
-
-        if(k == 0){
-
-
-        }else{
-
-            for( i=0; i<DSP_BLOCK_SIZE; ++i) {
-
-                buffer[(u_2_s  + i) ] = X_v[counter];
-                counter++;
-
-            }
-        }
-
-        block_lms(buffer,Y,w,u_1_s,u_2_s,d_s);
-
-        u_1_s = (u_1_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
-        u_2_s = (u_2_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
-        d_s = (d_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
-
-
-    }
+    toeplitz_test();
+//
+//    double X_v[16] = {1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0};
+//
+//    int u_1_s = 0;
+//    int u_2_s = DSP_BLOCK_SIZE - 1;
+//    int d_s = u_2_s - DELAY_SIZE ;
+//
+//    double Y[DSP_BLOCK_SIZE];
+//    double w[DSP_BLOCK_SIZE];
+//
+//    int counter = 7 ;
+//
+//    int k;
+//    int i;
+//
+//    for ( k = 0; k < 3; ++k) {
+//
+//        if(k == 0){
+//
+//
+//        }else{
+//
+//            for( i=0; i<DSP_BLOCK_SIZE; ++i) {
+//
+//                buffer[(u_2_s  + i) ] = X_v[counter];
+//                counter++;
+//
+//            }
+//        }
+//
+//        block_lms(buffer,Y,w,u_1_s,u_2_s,d_s);
+//
+//        u_1_s = (u_1_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+//        u_2_s = (u_2_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+//        d_s = (d_s +  DSP_BLOCK_SIZE) % (DSP_BLOCK_SIZE*2 -1);
+//
+//
+//    }
 
 }
