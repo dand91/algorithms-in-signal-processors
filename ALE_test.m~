@@ -258,12 +258,13 @@ close all
 
 %% test3 
 
+
+buffer = []
+
 clc
 
-
-
-block_size =10;
-delay = dsp.Delay(block_size/2);
+block_size =100;
+delay = dsp.Delay(100);
 
 u = eta1 + y;
 
@@ -275,10 +276,12 @@ w_h = [];
 N=length(u);
 
 e_v = [];
-
+u_s = 0
 for k=block_size:block_size+40000
     
-    uvec=u(k:-1:k-block_size+1);
+    
+    buffer[mod(u_s,block_size*2)]
+    
     
     d_val = d(k);
 

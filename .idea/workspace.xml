@@ -14,13 +14,8 @@
   <component name="ChangeListManager">
     <list default="true" id="73231438-0d13-4dd8-aacc-746628169d9c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.mexa64" afterPath="$PROJECT_DIR$/block_m.mexa64" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out2" afterPath="$PROJECT_DIR$/out2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ALE_test.m" afterPath="$PROJECT_DIR$/ALE_test.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_lms.c" afterPath="$PROJECT_DIR$/block_lms.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.c" afterPath="$PROJECT_DIR$/block_m.c" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/blocklms.m" afterPath="$PROJECT_DIR$/blocklms.m" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lms.m" afterPath="$PROJECT_DIR$/lms.m" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -82,8 +77,8 @@
       <file leaf-file-name="block_m.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/block_m.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="288">
+              <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -448,12 +443,12 @@
       <workItem from="1486116282588" duration="17142000" />
       <workItem from="1486464497065" duration="13113000" />
       <workItem from="1486544252622" duration="26668000" />
-      <workItem from="1486631141636" duration="1385000" />
+      <workItem from="1486631141636" duration="5441000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96800000" />
+    <option name="totallyTimeSpent" value="100856000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="24" width="1401" height="876" extended-state="6" />
@@ -859,8 +854,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/block_m.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="288">
+          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
           <folding />
         </state>
       </provider>

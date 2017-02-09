@@ -10,36 +10,78 @@
 
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
 
-    static int DSP_BLOCK_SIZE = 100;
+    static int DSP_BLOCK_SIZE = 10;
+    static int delay = 8;
     static double mu = 0.01;
     int i;
 
     double u[DSP_BLOCK_SIZE], w[DSP_BLOCK_SIZE];
     double *d;
+    int *u_s;
 
     d = mxGetPr(prhs[2]);
+    u_s = (int *)mxGetPr(prhs[3]);
 
     double *t1,*t2;
 
     t1 = mxGetPr(prhs[0]);
     t2 = mxGetPr(prhs[1]);
 
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        w[i] = t1[i];
+    }
+
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        u[i] = t2[i];
+    }
 
     double y;
     double e;
+    int index;
 
     for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
-        w[i] = t1[i];
-        u[i] = t2[i];
-        y += w[i]*u[i];
+
+        if((*u_s-i) < 0){
+
+            index = (*u_s-i) + DSP_BLOCK_SIZE;
+
+        }else{
+
+            index = (*u_s-i);
+
+        }
+
+        y += w[i]*u[index];
 
     }
 
-    e = *d-y;
+    int d_index;
+
+    if((*u_s-delay) < 0){
+
+        d_index = (*u_s-delay) + DSP_BLOCK_SIZE;
+
+    }else{
+
+        d_index = (*u_s-delay);
+
+    }
+
+    e = u[d_index]-y;
 
     for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
-        w[i] = w[i]+mu*u[i]*e;
+        if((*u_s-i) < 0){
+
+            index = (*u_s-i) + DSP_BLOCK_SIZE;
+
+        }else{
+
+            index = (*u_s-i);
+
+        }
+
+        w[i] = w[i]+mu*u[index]*e;
 
     }
 
