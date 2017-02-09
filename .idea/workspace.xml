@@ -13,8 +13,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73231438-0d13-4dd8-aacc-746628169d9c" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.mexa64" afterPath="$PROJECT_DIR$/block_m.mexa64" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ALE_test.m" afterPath="$PROJECT_DIR$/ALE_test.m" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.c" afterPath="$PROJECT_DIR$/block_m.c" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -77,8 +75,8 @@
       <file leaf-file-name="block_m.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/block_m.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+            <state relative-caret-position="306">
+              <caret line="77" column="9" lean-forward="false" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -443,12 +441,12 @@
       <workItem from="1486116282588" duration="17142000" />
       <workItem from="1486464497065" duration="13113000" />
       <workItem from="1486544252622" duration="26668000" />
-      <workItem from="1486631141636" duration="5441000" />
+      <workItem from="1486631141636" duration="6800000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="100856000" />
+    <option name="totallyTimeSpent" value="102215000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="24" width="1401" height="876" extended-state="6" />
@@ -854,8 +852,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/block_m.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="67" column="0" lean-forward="false" selection-start-line="67" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret line="77" column="9" lean-forward="false" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
           <folding />
         </state>
       </provider>

@@ -72,16 +72,25 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]){
     for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
         if((*u_s-i) < 0){
-
-            index = (*u_s-i) + DSP_BLOCK_SIZE;
-
+            index_i = (*u_s-i) + DSP_BLOCK_SIZE;
         }else{
-
-            index = (*u_s-i);
-
+            index_i = (*u_s-i);
         }
 
-        w[i] = w[i]+mu*u[index]*e;
+        double u_sum = 0;
+
+        for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {
+
+            if((*u_s-j) < 0){
+                index_j = (*u_s-j) + DSP_BLOCK_SIZE;
+            }else{
+                index_j = (*u_s-j);
+            }
+
+            u_sum += u[index_j]*2;
+
+        w[i] = w[i]+mu*u[index_i]*e;
+        w[i]=w[i]+mu/(a+u_sum)*u[index_i]*e);
 
     }
 
