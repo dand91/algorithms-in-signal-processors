@@ -201,11 +201,13 @@ end
 
 %% test2 
 
-DSP_BLOCK_SIZE = int32(50);
-DELAY_SIZE = int32(48);
-mu = 0.0001;
+clc
 
-u = y + eta1;
+DSP_BLOCK_SIZE = int32(5);
+DELAY_SIZE = int32(2);
+mu = 0.01;
+
+u = y;
 
 u_1_s = int32(0);
 u_2_s = int32(DSP_BLOCK_SIZE - 1);
@@ -225,31 +227,35 @@ e_v = [];
 
 for k=1:blocks
        
-    for l = 1:DSP_BLOCK_SIZE
+    for l = 0:DSP_BLOCK_SIZE-1
         
-        index = mod( (u_2_s  + l),(DSP_BLOCK_SIZE*2 -1)) +1;
-        
-        buffer(index) = u(counter);
+        index = mod( (u_2_s  + l),(DSP_BLOCK_SIZE*2 -1));
+                    
+        buffer(index+1) = u(counter);
         counter = counter + 1;
+
+
         
     end
-           
-    [e,w] = block_m(DSP_BLOCK_SIZE,DELAY_SIZE,mu,buffer,w,u_1_s,u_2_s,d_s);
+    
+    [e,w,u_1_s,u_2_s,d_s] = block_m(buffer,w,int32(u_1_s),int32(u_2_s),int32(d_s));
+  
+
     
     e_v = [e_v;e];   
     w_h = [w_h,w];
 
-    u_1_s = mod((u_1_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
-    u_2_s = mod((u_2_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
-    d_s = mod((d_s +  DSP_BLOCK_SIZE) , (DSP_BLOCK_SIZE*2 -1));
-   
 end
   
 % Plot 
+close all
+%figure(1)
+%plot(w_h')
+%figure(2)
+%plot(e_v)
 
+%%
+close all
 plot(w_h')
-figure()
-plot(e_v)
-
 %%
 soundsc(e_v, 44100);
