@@ -11,7 +11,7 @@ Blocks=N/M;
 
 w_hist = [];
 
-for k=1:4-1
+for k=1:Blocks-1
        
    %Set up input signal matrix, dim. MxM (cf. example 1, Haykin p. 448) 
    umat=toeplitz(u(k*M:1:(k+1)*M-1),u(k*M:-1:(k-1)*M+1));

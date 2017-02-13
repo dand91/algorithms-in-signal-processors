@@ -13,7 +13,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="73231438-0d13-4dd8-aacc-746628169d9c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.mexa64" afterPath="$PROJECT_DIR$/block_m.mexa64" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out" afterPath="$PROJECT_DIR$/out" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out2" afterPath="$PROJECT_DIR$/out2" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ALE_test.m" afterPath="$PROJECT_DIR$/ALE_test.m" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_lms.c" afterPath="$PROJECT_DIR$/block_lms.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/block_m.c" afterPath="$PROJECT_DIR$/block_m.c" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/blocklms.m" afterPath="$PROJECT_DIR$/blocklms.m" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/cmake-build-release/" />
@@ -35,8 +42,8 @@
       <file leaf-file-name="main.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1314">
-              <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="74" selection-end-column="1" />
+            <state relative-caret-position="1296">
+              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -52,31 +59,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="framework.c" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/framework.c">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10728">
-              <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="block_lms.c" pinned="false" current-in-tab="false">
+      <file leaf-file-name="block_lms.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/block_lms.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="666">
-              <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+            <state relative-caret-position="-540">
+              <caret line="174" column="43" lean-forward="true" selection-start-line="174" selection-start-column="43" selection-end-line="174" selection-end-column="43" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="block_m.c" pinned="false" current-in-tab="true">
+      <file leaf-file-name="block_m.c" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/block_m.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="77" column="9" lean-forward="false" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
+            <state relative-caret-position="-3356">
+              <caret line="83" column="64" lean-forward="false" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
               <folding />
             </state>
           </provider>
@@ -133,6 +130,7 @@
       <find>4</find>
       <find>5</find>
       <find>buffer</find>
+      <find>w</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -149,8 +147,8 @@
         <option value="$PROJECT_DIR$/block_lms.h" />
         <option value="$PROJECT_DIR$/main.c" />
         <option value="$PROJECT_DIR$/mod_test.cpp" />
-        <option value="$PROJECT_DIR$/block_lms.c" />
         <option value="$PROJECT_DIR$/block_m.c" />
+        <option value="$PROJECT_DIR$/block_lms.c" />
       </list>
     </option>
   </component>
@@ -441,18 +439,19 @@
       <workItem from="1486116282588" duration="17142000" />
       <workItem from="1486464497065" duration="13113000" />
       <workItem from="1486544252622" duration="26668000" />
-      <workItem from="1486631141636" duration="6800000" />
+      <workItem from="1486631141636" duration="17073000" />
+      <workItem from="1486990799633" duration="4383000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="102215000" />
+    <option name="totallyTimeSpent" value="116871000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="24" width="1401" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.08635704" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2539913" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.08239701" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
@@ -515,7 +514,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10728">
           <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -571,7 +569,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10728">
           <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -627,7 +624,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10728">
           <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -683,7 +679,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10728">
           <caret line="596" column="22" lean-forward="true" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -739,7 +734,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -794,26 +788,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/blocklms.m">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="20" column="2" lean-forward="false" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ALE_test.m">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
           <caret line="16" column="18" lean-forward="false" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10728">
-          <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
           <folding />
         </state>
       </provider>
@@ -826,14 +804,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.c">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1314">
-          <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="74" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mod_test.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
@@ -842,18 +812,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/block_lms.c">
+    <entry file="file://$PROJECT_DIR$/main.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="37" column="0" lean-forward="false" selection-start-line="37" selection-start-column="0" selection-end-line="37" selection-end-column="0" />
+        <state relative-caret-position="1296">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="712">
+          <caret line="596" column="22" lean-forward="false" selection-start-line="596" selection-start-column="22" selection-end-line="596" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/block_m.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="77" column="9" lean-forward="false" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
+        <state relative-caret-position="-3356">
+          <caret line="83" column="64" lean-forward="false" selection-start-line="83" selection-start-column="64" selection-end-line="83" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/blocklms.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="20" column="2" lean-forward="false" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/block_lms.c">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-540">
+          <caret line="174" column="43" lean-forward="true" selection-start-line="174" selection-start-column="43" selection-end-line="174" selection-end-column="43" />
           <folding />
         </state>
       </provider>
