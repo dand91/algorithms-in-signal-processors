@@ -24,10 +24,15 @@ int index_d = 0;
 
 int i = 0;
 
-void process(int sig){
+int lmstype = 1;
+
+void processlms(int sig){
 
 	double mu = 1.5;
-
+	
+	y = 0;
+	e = 0;
+	
     sample_t *u30 = dsp_get_audio_u30();    /* line 2 in without mic bias, no out */
     sample_t *u32 = dsp_get_audio_u32();    /* mic 1 and 2 in, headset out */
     
@@ -82,7 +87,6 @@ void process(int sig){
     u32[0].right = e; 
     u32[0].left  = e;
   
-
 }
 
 int a = 100;
@@ -91,7 +95,7 @@ double u_sum;
 
 void processnlms(int sig)
 {
-	double mu = 100;
+	double mu = 50;
 	
     sample_t *u30 = dsp_get_audio_u30();    /* line 2 in without mic bias, no out */
     sample_t *u32 = dsp_get_audio_u32();    /* mic 1 and 2 in, headset out */
@@ -100,7 +104,7 @@ void processnlms(int sig)
     buffer[u_s] = u30[0].right;
      
     double y = 0;
-    double e;
+    double e = 0;
 
     for ( i = 0; i < filter_size; ++i) {
 
@@ -156,97 +160,38 @@ void processnlms(int sig)
   
 }
 
-double lambda = 0.9;
-double delta = 0.004;
 
-void processrls(int sig){
-
-	double mu = 1.5;
+void processnolms(int sig)
+{
 
     sample_t *u30 = dsp_get_audio_u30();    /* line 2 in without mic bias, no out */
     sample_t *u32 = dsp_get_audio_u32();    /* mic 1 and 2 in, headset out */
-    
-    buffer[u_s] = u30[0].right;
-    
-   
-    //k=lambda^(-1)*P*uvec/(1+lambda^(-1)*uvec'*P*uvec);
-    
-    double k;
-    double P_sum = 0.0;
-    double u_P_sum = 0.0;
-    
-    for ( i = 0; i < filter_size; ++i) {
-
-        if((u_s-i) < 0){
-
-            index_i = (u_s-i) + filter_size;
-            
-        }else{
-
-            index_i = (u_s-i);
-
-        }
+	
         
-        P_sum += buffer[index_i]/delta;
-        u_P_sum += 2*buffer[index_i]/delta;
-    }
-    
-    k = ((1/lambda) * P_sum)/(1 + (1/lambda)*u_P_sum);
-
-    //xi(n)=d(n)-w'*uvec; 
-    double xi;
-    
-    if((u_s-delay) < 0){
-    	
-        index_d = (u_s-delay) + filter_size;
-
-    }else{
-
-        index_d = (u_s-delay);
-    }
-    
-   
-    double w_u_sum = 0.0;
-    
-    for ( i = 0; i < filter_size; ++i) {
-    	
- 
-    	if((u_s-i) < 0){
-
-            index_i = (u_s-i) + filter_size;
-            
-        }else{
-
-            index_i = (u_s-i);
-
-        }
-
-    	
-    	w_u_sum += w[i] * buffer[index_i];
-    }
-
-    xi = buffer[index_d] - w_u_sum;
-    
-    
-    //w=w+k*conj(xi(n));  
-    
-    for ( i = 0; i < filter_size; ++i) {
-    
-    	w[i] = w[i] + k * xi;
-    		
-    }
-
-  
-
-    //P=lambda^(-1)*P-lambda^(-1)*k*uvec'*P;
-    
-		
-   	
     u32[0].right = u30[0].right; 
-    u32[0].left  = u30[0].right;
+    u32[0].left  = u30[0].left;
   
-
 }
+
+
+void process(int sig){
+
+
+	if(lmstype == 1){
+	
+		processlms(sig);
+	
+	}else if(lmstype == 2){
+	
+		processnlms(sig);
+		
+	}else if(lmstype == 3){
+	
+		processnolms(sig);
+		
+	}		
+}
+
 
 static void keyboard(int sig)
 {
@@ -257,9 +202,20 @@ static void keyboard(int sig)
         leds = 0;
     } else if(keys & DSP_SW2) {
         leds = DSP_D1;
+        
+            
+    for ( i = 0; i < filter_size; ++i) {
+    
+    	w[i] = 0;
+    		
+    }
        
+ 
     } else if(keys & DSP_SW3) {
         leds = DSP_D2;
+        
+        lmstype = (lmstype + 1) % 3;
+        
     } else if(keys & DSP_SW4) {
         leds = DSP_D1|DSP_D2;
     }
@@ -285,7 +241,7 @@ void main()
     SIG_USR0: the keyboard callback
     SIG_TMZ: the timer callback
     */
-    interrupt(SIG_SP1, processnlms);
+    interrupt(SIG_SP1, process);
     interrupt(SIG_USR0, keyboard);
     interrupt(SIG_TMZ, timer);
     timer_set(9830400, 9830400);
