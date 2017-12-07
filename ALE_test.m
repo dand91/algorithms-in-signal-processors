@@ -12,7 +12,7 @@ y = y_t(1:48000*5);
 
 %% Listen to audio
 
-soundsc(y, 48000);
+soundsc(y*3, 48000);
 
 %% Generate sinusoid
 
@@ -21,23 +21,39 @@ sine = dsp.SineWave('Amplitude',0.5,'Frequency',1000,...
     'SamplesPerFrame',48000);
 
 
-sine2 = dsp.SineWave('Amplitude',0.5,'Frequency',500,...
+sine2 = dsp.SineWave('Amplitude',0.5,'Frequency',1500,...
+    'SampleRate',48000,...
+    'SamplesPerFrame',48000);
+
+sine3 = dsp.SineWave('Amplitude',0.5,'Frequency',500,...
+    'SampleRate',48000,...
+    'SamplesPerFrame',48000);
+
+sine4 = dsp.SineWave('Amplitude',0.5,'Frequency',1500,...
     'SampleRate',48000,...
     'SamplesPerFrame',48000);
 
 eta1 = [];
 eta1_1 = [];
 eta1_2 = [];
+eta1_3 = [];
+eta1_4 = [];
 
-
-for i = 1:5
+for i = 1:100
     
     eta1_1 = [eta1_1; sine()];
     eta1_2 = [eta1_2; sine2()];
-    
+    eta1_3 = [eta1_3; sine3()];
+    eta1_4 = [eta1_4; sine4()];
+
 end
 
-eta1 = eta1_1;
+eta1 = eta1_1 + eta1_2;
+
+audiowrite('sin1.wav',eta1_1,48000)
+audiowrite('sin2.wav',eta1_1 + eta1_2 ,48000)
+audiowrite('sin3.wav',eta1_1 + eta1_2 + eta1_3 ,48000)
+audiowrite('sin4.wav',eta1_1 + eta1_2 + eta1_3 + eta1_4 ,48000)
 
 %% Generate colored noise
 
@@ -55,16 +71,16 @@ eta2=eta2(filter_length:end)/20;
 
 %% Listen to sinusoid 
 
-soundsc(y*2, 48000);
+soundsc(y, 48000);
 
 %% Listen to mixed signal
     
 soundsc(y + eta1, 48000);
 
 %% Listen to mixed signalz
-while true
-    soundsc(y + eta1/10, 48000);
-end
+
+    soundsc(eta1, 48000);
+
 %% Print pre signals 
 
 plot(y(1:500))
@@ -79,15 +95,15 @@ plot(y(1:500) + eta(1:500))
 
 % Value 
 
-block_size = 50;
+block_size = 10;
 
-filter_size = 20;
+filter_size = 10;
 
 % Delay 
 
 D = block_size;
 
-delay = dsp.Delay(100);
+delay = dsp.Delay(10);
 
 % Algorithm
 
@@ -97,17 +113,17 @@ s = eta1 + y;
 d = delay(s);
 
 %d = s;
-%[e,y_out,w,w_hist] = lms(0.01,filter_size,s,d);
-[e,w,w_hist] = blocklms(0.0001,filter_size,s,d);
-%[e,y_out,w,w_hist] = nlms(0.5,filter_size,s,d,100);
+%[e,y_out,w,w_hist] = lms(0.1,filter_size,s,d);
+
+disp('test')
+%[e,w,w_hist] = blocklms(0.0001,filter_size,s,d);
+[e,y_out,w,w_hist] = nlms(0.0001,filter_size,s,d,100);
 
 figure()
-plot(e(1:1000))
+plot(e)
 figure()
 plot(w_hist')
-hold on
-%plot(repmat(w_hist,length(w_hist'),1))
-soundsc(e, 44100);
+%soundsc(e, 44100);
 
 %% FM sinusoid 
 
@@ -137,8 +153,8 @@ s = fm_eta + y;
 
 d = delay(s);
     
-[e,w,w_hist] = lms(0.1,filter_size,s,d);
-%[e,y_out] = blocklms(0.01,filter_size,s,d);
+%[e,w,w_hist] = lms(0.1,filter_size,s,d);
+[e,y_out] = blocklms(0.01,filter_size,s,d);
 %[e,y_out] = nlms(0.1,filter_size,s,d,100);
    
 plot(e)
@@ -160,7 +176,7 @@ D = 2;
 
 mu = 0.9
 
-delayy = dsp.Delay(2);
+delay = dsp.Delay(2);
 
 u = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
 

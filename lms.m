@@ -25,14 +25,11 @@ d=d(:);
 w_hist = [];
 
 %LMS
-for n=M:M+10
+for n=M:N
     
     uvec=u(n:-1:n-M+1);
     y(n) = w'*uvec;
     e(n)=d(n)-y(n);  
-    uvec
-    e(n)
-    conj(e(n))
     w=w+mu*uvec*conj(e(n));
     w_hist = [w_hist,w];
 
