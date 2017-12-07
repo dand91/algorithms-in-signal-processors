@@ -1,3 +1,4 @@
+
 #include <processor_include.h>
 #include <signal.h>
 #include <string.h>
@@ -7,106 +8,142 @@
 
 #include "framework.h"
 
-static int filter_size = 70;
-static int delay = 70;
+static double pm w[DSP_BLOCK_SIZE];
 
-static double pm w[70];
+static double pm e[DSP_BLOCK_SIZE];
 
-static double pm e[70];
+static double pm y[DSP_BLOCK_SIZE];
 
-static double pm y[70];
+static double pm phi[DSP_BLOCK_SIZE];
 
-static double pm buffer[70*2];
+static double pm buffer[DSP_BLOCK_SIZE*2];
 
-double mu = 1.5;
+double mu = 0.01;
 
-int index_i = 0;
-int index_d = 0;
+int index = 0;
 
-int nn;
-int n;
 int j;
 int i;
 
 int pos = 0;
 
-void block_lms(int pos){
+double y_t = 0;
+double phi_t = 0;
 
-    // yvec=umat*w;
-    double y[DSP_BLOCK_SIZE];
+void temp(){
+
+}
+
+void block_lms(){
+
+
+	// yvec=umat*w;
 
     for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
-        double y_t = 0;
+        y_t = 0;
         for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {
 
             if(pos == 0) {
 
-                int index = - (j - i);
+                index = - (j - i);
 
                 if(index < 0){
 
                     index = index + DSP_BLOCK_SIZE*2;
                 }
 
-                y_t += w[j] * buffer[index];
-
             }else if(pos == 1){
+            	
+            	index =  DSP_BLOCK_SIZE - (j - i);
+            	
+            	 if(index < 0){
 
-                y_t += w[j] * buffer[( DSP_BLOCK_SIZE - (j - i)) ];
-
+                    index = index + DSP_BLOCK_SIZE;
+                }
             }
+            
+            y_t += w[j] * buffer[index];
         }
         y[i] = y_t;
     }
 
     //evec=d-yvec;
-    for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-        e[nn] = buffer[( nn) ] - y[nn];
-    }
 
-    //phi=umat.'*evec;
-    double phi[DSP_BLOCK_SIZE];
-    for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {
-        int phi_t = 0;
-        for (i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+        	
+            if(pos == 0){
 
-            if(pos == 0) {
-
-                int index = - (j - i);
+                index = - DELAY + i;
 
                 if(index < 0){
 
                     index = index + DSP_BLOCK_SIZE*2;
                 }
 
-                phi_t += buffer[ index] * e[i];
-
             }else if(pos == 1){
 
-                phi_t += buffer[ ( DSP_BLOCK_SIZE-1-(j-i))] * e[i];
+                index = DSP_BLOCK_SIZE - DELAY + i;
+                
+                if(index < 0){
+
+                    index = index + DSP_BLOCK_SIZE;
+                }
+
             }
+
+              e[i] = buffer[index] - y[i];
+        }
+
+
+    //phi=umat.'*evec;
+
+    for ( j = 0; j < DSP_BLOCK_SIZE; ++j) {
+    	
+        phi_t = 0;
+        
+        for (i = 0; i < DSP_BLOCK_SIZE; ++i) {
+
+            if(pos == 0) {
+
+                index = - (j - i);
+
+                if(index < 0){
+
+                    index = index + DSP_BLOCK_SIZE*2;
+                }
+
+            }else if(pos == 1){
+            
+            	  index = DSP_BLOCK_SIZE-1-(j-i);
+
+                if(index < 0){ 
+
+                    index = index + DSP_BLOCK_SIZE;
+                }
+            }
+            
+             phi_t += buffer[index] * e[i];
         }
 
         phi[j] = phi_t;
     }
 
     //w=w+mu*phi;
-    for ( nn = 0; nn < DSP_BLOCK_SIZE; ++nn) {
-        w[nn] = w[nn] + mu * phi[nn];
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+    	
+        w[i] = w[i] + mu * phi[i];
     }
-
 }
 
-
 void process(int sig){
-
-    sample_t *u30 = dsp_get_audio_u30();    /* line 2 in without mic bias, no out */
+    
+	sample_t *u30 = dsp_get_audio_u30();    /* line 2 in without mic bias, no out */
     sample_t *u32 = dsp_get_audio_u32();    /* mic 1 and 2 in, headset out */
 
 
-    if(pos == 0){
+	if(pos == 0){
 
-        for (i = 0; i < filter_size; ++i) {
+        for (i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
             buffer[i] = u30[i].right;
         }
@@ -115,20 +152,20 @@ void process(int sig){
 
     }else if(pos == 1){
 
-        for (i = 0; i < filter_size; ++i) {
+        for (i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
-            buffer[filter_size + i] = u30[i].right;
+            buffer[DSP_BLOCK_SIZE + i] = u30[i].right;
         }
 
         pos = 0;
     }
 
-    block_lms(pos);
+    block_lms();
 
-    for (i = 0; i < filter_size; ++i) {
+    for (i = 0; i < DSP_BLOCK_SIZE; ++i) {
 
-        u32[0].right = e[i];
-        u32[0].left  = e[i];
+        u32[i].right = e[i];
+        u32[i].left  = e[i];
     }
 }
 
@@ -141,6 +178,13 @@ static void keyboard(int sig)
         leds = 0;
     } else if(keys & DSP_SW2) {
         leds = DSP_D1;
+        
+                    
+    for ( i = 0; i < DSP_BLOCK_SIZE; ++i) {
+    
+    	w[i] = 0;
+    		
+    }
 
     } else if(keys & DSP_SW3) {
         leds = DSP_D2;
@@ -169,7 +213,7 @@ void main()
     SIG_USR0: the keyboard callback
     SIG_TMZ: the timer callback
     */
-    interrupt(SIG_SP1, processnlms);
+    interrupt(SIG_SP1, process);
     interrupt(SIG_USR0, keyboard);
     interrupt(SIG_TMZ, timer);
     timer_set(9830400, 9830400);
